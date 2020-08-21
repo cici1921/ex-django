@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView
+from post.models import *
 
 class PostLV(ListView):
     model = Post

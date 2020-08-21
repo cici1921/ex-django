@@ -14,7 +14,6 @@ class Post(models.Model):
     content = HTMLField('CONTENT') # models.TextField('CONTENT')
     create_dt = models.DateTimeField('CREATE DATE', auto_now_add=True)
     modify_dt = models.DateTimeField('MODIFY DATE')
-    tags = TaggableManager(blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='OWNER', blank=True, null=True)
 
     read_cnt = models.IntegerField(default=0)
@@ -23,14 +22,14 @@ class Post(models.Model):
     class Meta: # Content에 대해서 추가정보를 관리하는 정보를 메타정보라고 함
         verbose_name = 'post' # 단수
         verbose_name_plural = 'posts' # 복수
-        db_table = 'blog_posts' # 테이블명 재정의
+        db_table = 'temp_db' #테이블명 재정의
         ordering = ('-modify_dt',) # orderby 절, -이면 내림차순순 <- 저건 튜플 (,) 가 있긴 때문에
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self): # 현재 데이터의 절대 경로 추출
-        return reverse('blog:detail', args=(self.slug,))
+        return reverse('post:detail', args=(self.slug,))
 
     def get_previous(self): # 이젠 데이터 추출
         return self.get_previous_by_modify_dt()
@@ -38,14 +37,6 @@ class Post(models.Model):
     def get_next(self): # 다음 데이터 추출
         return self.get_next_by_modify_dt()
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title, allow_unicode=True)
-        super().save(*args, **kwargs)
-
-    def first_image(self):
-        if self.files.all().count() > 0:
-            return self.files.all()[0].filename;
-        return ''
 
     @property
     def update_read_cnt(self):
