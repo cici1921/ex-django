@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'post.apps.PostConfig'
+    'user.apps.UserConfig'
 ]
 
 MIDDLEWARE = [
@@ -74,11 +76,16 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+'default': {
+'ENGINE': 'django.db.backends.mysql',
+'NAME': 'django_ex_db', # 데이터베이스 명
+'HOST': 'localhost', # 서버 IP
+'PORT': '3306', # 포트번호
+'USER': 'webuser', # 사용자 ID
+'PASSWORD': '1234' # 비밀번호
 }
+}
+
 
 
 # Password validation
